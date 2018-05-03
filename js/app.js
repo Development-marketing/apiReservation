@@ -1,4 +1,18 @@
-
+// // draw  in the app
+const drawDataList = e => {
+    let data = document.getElementById('data'),
+     allData = ` 
+         <a href="#">${e.name}</a>
+         <h1>${e.price}</h1>
+     `;
+    console.log(e.scrapped);
+    let scrapped = [e.scrapped],
+        res = scrapped.map((e) => {console.log(e.name) })
+    if(data){
+        data.insertAdjacentHTML('beforeEnd', allData);
+    } 
+};
+// init ajaxApi
 const searchHotel = (inputCity,inputCheckin,inputCheckout,inputRooms,inputAdults,inputChildrens) =>{
     let api = new XMLHttpRequest();
 api.open('POST','https://reserveahora.herokuapp.com/api/v1/scrap');
@@ -9,16 +23,14 @@ api.onprogress = () =>{
 api.onload = () => {
     if (api.status === 200) {
         let response = JSON.parse(api.responseText);
-        // drawDataList(e);
         console.log(response);
+        drawDataList(response);
     }
 }
 api.send(JSON.stringify({
     "destiny":{"idcity":"-592318","type":"city","city":inputCity},"checkin":inputCheckin,"checkout":inputCheckout,"room":{"id":1,"quantity":inputRooms},"adult":{"id":2,"quantity":inputAdults},"child":""
 }))
-
 }
-// searchHotel();
 // get data
 const getDataList = () =>{
     let inputCity= document.getElementById('city-app').value,
@@ -29,7 +41,7 @@ const getDataList = () =>{
     inputChildrens= document.getElementById('childrens-app').value;
     return{inputCity,inputCheckin,inputCheckout,inputRooms,inputAdults,inputChildrens};
 }
-const getEventList = () =>{
+const getEventList = () =>{ 
     document.getElementById("sendData").addEventListener("click",() =>{
         console.log(getDataList());
         let objectList = getDataList();
@@ -39,14 +51,5 @@ const getEventList = () =>{
 if(document.getElementById("sendData")){
     getEventList();
 }
-// draw  in the app
-const drawDataList = e =>{
-    let data = document.getElementById('data'),
-    allData = `
-        <a>${e.name}</a>
-        <a>${e.price}</a>
-    `;
-    if(data){
-        data.insertAdjacentHTML('beforeEnd', allData);
-    }
-};
+// searchHotel(); 
+
