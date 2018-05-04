@@ -1,21 +1,25 @@
 // // draw  in the app
 const drawDataList = e => {
-    let container = document.querySelector('.nepon'),
+    let container = document.querySelector('.content'),
         allData = '',
         hotels = e.scrapped;
     
     for(let hotel of hotels){
        allData = ` 
            <a href="#">${hotel.name}</a>
-           <h1>$.${hotel.price}</h1>
+           <h1>$${hotel.price}</h1>
        `;
       container.insertAdjacentHTML('beforeEnd', allData);
      }
+     idLogin = e.scrapped;
+     for(let idLog of idLogin){
+         console.log(idLogin[0].id);
+     }
   };
   // init ajaxApi
-  const searchHotel = (inputCity,inputCheckin,inputCheckout,inputRooms,inputAdults,inputChildrens) =>{
+  const searchHotel = (inputCity,inputCheckin,inputCheckout,inputRooms,inputAdults,inputChildrens,res) =>{
       let api = new XMLHttpRequest();
-  api.open('POST','https://5e07d0c4.ngrok.io/api/v1/scrap');
+  api.open('POST','https://reserveahora.herokuapp.com/api/v1/scrap');
   api.setRequestHeader('Content-Type','application/json');
   api.onprogress = () =>{
       console.log('On load');
@@ -23,8 +27,8 @@ const drawDataList = e => {
   api.onload = () => {
       if (api.status === 200) {
           let response = JSON.parse(api.responseText);
-          // console.log(response);
           drawDataList(response);
+          let res = idLogin[0].id;
       }
   }
   api.send(JSON.stringify({
